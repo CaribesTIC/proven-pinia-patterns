@@ -1,0 +1,1 @@
+import{_ as e,c as a,o,N as r}from"./chunks/framework.23a4abfb.js";const _=JSON.parse('{"title":"Introducción","description":"","frontmatter":{},"headers":[],"relativePath":"intro.md"}'),i={name:"intro.md"},s=r("",13),n=[s];function t(c,d,l,u,p,m){return o(),a("div",null,n)}const f=e(i,[["render",t]]);export{_ as __pageData,f as default};
