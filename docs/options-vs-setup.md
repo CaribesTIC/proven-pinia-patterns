@@ -100,8 +100,54 @@ Veamos una característica de nuestra aplicación de ejemplo, Restaurantes Pinia
 
 Cuando el usuario carga la página, hay una entrada para escribir su ciudad.
 
-Pero si el usuario no escribe nada, su ubicación actual se encontrará automáticamente. Para que puedan usar la ubicación que se carga para ellos, o pueden ingresar una nueva ubicación.
+Pero si el usuario no escribe nada, su ubicación actual se encontrará automáticamente. Así que puedan usar la ubicación que se carga para ellos, o pueden ingresar una nueva ubicación.
 
 ![options-vs-setup](./img/options-vs-setup.jpg)
 
-The feature that loads their location automatically relies on the useGeolocation composable from VueUse.
+La función que carga su ubicación automáticamente se basa en el componente [`useGeolocation` de VueUse](https://vueuse.org/core/useGeolocation/).
+
+Podemos traer ese composable al `store` de geolocalización importándolo desde la biblioteca VueUse. Y luego debemos usar el composable dentro de la función `setup` para que Vue pueda hacer su magia para realizar un seguimiento de los efectos de reactividad relacionados con este composable.
+
+`📄 src/stores/geolocation.js`
+
+```js
+import { watch } from 'vue'
+import { defineStore } from 'pinia'
+import { useGeolocation } from '@vueuse/core'
+
+export const useGeoLocationStore = defineStore('geolocation', () => {
+  const { coords } = useGeolocation()
+  
+  // watch for coordinates to load or update, get a new location
+  watch(() => coords.value, (newValue) => {
+      if(newValue){
+        getLocation(coords.value.latitude, coords.value.longitude)
+      }
+    }
+  )
+
+  async function getLocation(latitude, longitude){
+    // fetch location data from Google Maps API
+  }
+
+  return { getLocation, coords }
+})
+```
+
+La acción `getLocation` buscará una ubicación mediante la API de **Google Maps**. Nos dará la ciudad si le enviamos coordenadas. Necesitaremos la latitud y la longitud del usuario para hacer esto, lo cual puede hacer por nosotros el composable `useGeolocation` de VueUse.
+
+Sin embargo, dado que el composable `useGeolocation` debe solicitar permiso para obtener la ubicación del usuario y hay un poco de retraso para que se carguen las coordenadas de la ubicación, significa que no podemos activar la acción instantáneamente cuando el componente se monta por primera vez. Necesitamos activarlo después de que se hayan cargado las coordenadas.
+
+Aquí es donde entra en juego el `watcher`. Podemos observar el valor de las coordenadas y, cuando ese valor llegue, desencadenar la acción `getLocation`.
+
+## No es un factor decisivo
+
+Si bien poder usar **watchers** es definitivamente una ventaja de los **stores** de **setup**, no es un factor decisivo para los **stores** de **Options**. Hay formas de evitar tener que escribir este **watcher** en el **store**.
+
+Por ejemplo, podríamos usar el componente `useGeolocation` en un componente y ver los valores allí, luego desencadenar la acción en el **store** desde el componente.
+
+Sin embargo, si se siente cómodo con la **Composition API** y un **watcher** es una buena opción para su solución, entonces los **stores** de **setup** son el camino a seguir. Pero si no usa la **Composition API** o si es relativamente nuevo en Pinia, es mejor que se quede con el **store** de **Options**. Elija el tipo de **store** que le parezca adecuado para usted y sus casos de uso.
+
+## Próximamente: tiendas modulares
+
+En la próxima lección, aprenderemos cómo Pinia ayuda a mantener las aplicaciones más organizadas con sus **stores** modulares. Es el primer paso para usar Pinia, diseñando una aplicación que sea más fácil de entender para los miembros del equipo debido a su organización en torno a áreas de interés separadas.
