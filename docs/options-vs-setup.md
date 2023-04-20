@@ -148,6 +148,6 @@ Por ejemplo, podríamos usar el componente `useGeolocation` en un componente y v
 
 Sin embargo, si se siente cómodo con la **Composition API** y un **watcher** es una buena opción para su solución, entonces los **stores** de **setup** son el camino a seguir. Pero si no usa la **Composition API** o si es relativamente nuevo en Pinia, es mejor que se quede con el **store** de **Options**. Elija el tipo de **store** que le parezca adecuado para usted y sus casos de uso.
 
-## Próximamente: tiendas modulares
+## A continuación: Tiendas Modulares
 
 En la próxima lección, aprenderemos cómo Pinia ayuda a mantener las aplicaciones más organizadas con sus **stores** modulares. Es el primer paso para usar Pinia, diseñando una aplicación que sea más fácil de entender para los miembros del equipo debido a su organización en torno a áreas de interés separadas.
