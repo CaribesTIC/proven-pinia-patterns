@@ -6,6 +6,8 @@ export default defineConfig({
   description: 'de Pinia',
   base: '/proven-pinia-patterns/',
   themeConfig: {
+    logo: '/logo.svg',
+    siteTitle: 'Patrones de Pinia',
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Inicio', link: '/' },
@@ -23,7 +25,10 @@ export default defineConfig({
         { text: 'Cuándo usar Pinia', link: '/cuando-usar-pinia' },   
         { text: 'Options vs Setup Stores', link: '/options-vs-setup' },  
         { text: 'Tiendas Modulares', link: '/modular-stores' },
-        { text: 'Accediendo al Estado', link: '/accessing-state' }
+        { text: 'Accediendo al Estado', link: '/accessing-state' },
+        { text: 'Mutando el Estado', link: '/mutating-state' },
+        { text: 'Complementos de Pinia', link: '/pinia-plugins' },
+              
       ]
     }],
     socialLinks: [
