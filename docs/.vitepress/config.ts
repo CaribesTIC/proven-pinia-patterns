@@ -22,7 +22,8 @@ export default defineConfig({
         { text: 'Introducción', link: '/intro' },
         { text: 'Cuándo usar Pinia', link: '/cuando-usar-pinia' },   
         { text: 'Options vs Setup Stores', link: '/options-vs-setup' },  
-        { text: 'Tiendas Modulares', link: '/modular-stores' }                         
+        { text: 'Tiendas Modulares', link: '/modular-stores' },
+        { text: 'Accediendo al Estado', link: '/accessing-state' }
       ]
     }],
     socialLinks: [
