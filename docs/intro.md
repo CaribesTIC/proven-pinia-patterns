@@ -2,7 +2,7 @@
 
 >Bienvenido a Patrones Probados de Pinia, donde exploraremos los patrones de nivel profesional que querrá saber cuando utilice la biblioteca de administración de estado de Vue en producción. Veremos las mejores prácticas para usar Pinia en sus aplicaciones y las aplicaremos a escenarios comunes.
 
-:::warning advertencia
+:::warning Advertencia
 Este tutorial requiere tener en cuenta los conceptos básicos de [Pinia](https://pinia.vuejs.org/)
 :::
 
