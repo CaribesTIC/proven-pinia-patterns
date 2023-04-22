@@ -6,7 +6,7 @@ export default defineConfig({
   description: 'de Pinia',
   base: '/proven-pinia-patterns/',
   themeConfig: {
-    logo: '/logo.svg',
+    logo: '/caribestic.png',
     siteTitle: 'Patrones de Pinia',
     // https://vitepress.dev/reference/default-theme-config
     nav: [

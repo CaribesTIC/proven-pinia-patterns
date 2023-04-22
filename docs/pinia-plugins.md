@@ -1,4 +1,4 @@
-## Complementos de Pinia
+# Complementos de Pinia
 
 >Terminaremos este tutorial echando un vistazo a una herramienta importante que puede ayudarnos a expandir la funcionalidad de Pinia: los
 complementos.
@@ -119,8 +119,6 @@ Ahora echemos un vistazo a cómo podemos escribir un complemento que se base en 
 
 El método `$subscribe` es similar al `watch` de Vue. Podemos usarlo para suscribirnos o vigilar mutaciones, de modo que cuando ocurra una mutación en particular, podamos realizar un efecto secundario.
 
-In this example, we are going to subscribe to mutations in the auth store. We want to know if the owner of the website logs in. If she does, we’ll trigger an alert to greet that owner.
-
 En este ejemplo, vamos a suscribirnos a las mutaciones en la tienda de autenticación. Queremos saber si el propietario del sitio web inicia sesión. Si lo hace, activaremos una alerta para saludar a ese propietario.
 
 `📄 greetOwnerPlugin.js`
@@ -143,28 +141,28 @@ Usamos o extendemos Pinia con el complemento en el archivo `main.js`:
 pinia.use(greetOwnerPlugin);
 ```
 
-A plugin will run anytime a store is created, so this will run whenever the auth store is created, but it will also run whenever the three other stores in our project are created (geolocation store, favorites store, and restaurants store). However, we only care about the mutations in the auth store.
+Un complemento se ejecutará cada vez que se cree una tienda, por lo que se ejecutará cada vez que se cree la tienda de `auth`, pero también se ejecutará cada vez que se creen las otras tres tiendas en nuestro proyecto (tienda de `geolocation`, tienda de `favorites` y tienda de `restaurants`). Sin embargo, solo nos preocupamos por las mutaciones en la tienda de `auth`.
 
-The $subscribe method gives us access to the mutation by its storeId, so we can tell the plugin to just send an alert when the relevant action in the auth store occurs.
+El método `$subscribe` nos da acceso a la mutación por su `storeId`, por lo que podemos decirle al complemento que envíe una alerta cuando ocurra la acción relevante en la tienda de `auth`.
 
-Now when I log in, the app greets me with the alert (since I am the owner!).
+Ahora, cuando inicio sesión, la aplicación me saluda con el `alert` (¡ya que soy el propietario!).
 
 ![pinia-plugins](./img/pinia-plugins-2.jpg)
 
-While this alert feature is a bit contrived, we could extend this plugin to run a specific Action only when an admin of the site logs in, like to fetch some protected data.
+Si bien esta función de `alert` es un poco artificial, podríamos extender este complemento para ejecutar una acción específica solo cuando un administrador del sitio inicia sesión, como para obtener algunos datos protegidos.
 
-## Using $onAction in Plugins
+## Usando `$onAction` en complementos
 
-We’ve already seen the $onAction helper method in this course. When it comes to Pinia plugins, we can use $onAction to achieve special behavior with Actions, such as:
+Ya hemos visto el método **helper** `$onAction` en este tutorial. Cuando se trata de complementos de Pinia, podemos usar `$onAction` para lograr un comportamiento especial con acciones, como:
 
-- Run code before an Action runs
-- Run code after an Action has run
-- Run code when an Action fails
-- Cancel an Action
+- Ejecutar código antes de que se ejecute una **Acción**
+- Ejecutar código después de que se haya ejecutado una **Acción**
+- Ejecutar código cuando falla una **Acción**
+- Cancelar una **Acción**
 
-Let’s write a plugin that uses $onAction to do something depending on if a user logs in, logs out, or registers.
+Escribamos un complemento que use `$onAction` para hacer algo dependiendo de si un usuario inicia sesión, cierra sesión o se registra.
 
-In this example, the $onAction method watches all Pinia actions, and if one occurs in the auth store, it checks which Action it is. Based on that action, it will send an alert.
+En este ejemplo, el método `$onAction` observa todas las acciones de Pinia y, si ocurre una en el **store** de `auth`, comprueba qué acción es. Basado en esa acción, enviará una alerta.
 
 `📄 greetUserPlugin.js`
 ```js
@@ -186,12 +184,12 @@ export function greetUserPlugin({ store }) {
   });
 }
 ```
+>Ahora vamos a probarlo en el navegador.
 
-Now let’s test it out in the browser.
+## Agregar el gancho posterior
 
-## Adding the after hook
+Para llevar este complemento un poco más allá, incluso podríamos usar el **hook** `after` para asegurarnos de que el `alert` aparezca solo una vez que se complete la acción. En el siguiente ejemplo, deconstruimos el nombre y el método del objeto de `context`.
 
-To take this plugin a bit further, we could even use the after hook to make sure the alert appears only once the Action is completed. In the example below, we deconstruct the name and method off of the context object.
 
 `📄 greetUserPlugin.js`
 ```js
@@ -220,9 +218,9 @@ export function greetUserPlugin({ store }) {
 }
 ```
 
-## An Elegant Use Case
+## Un Caso de Uso Elegante
 
-Another cool use case for $onAction is this elegant solution presented by Eduardo San Martin Morote, creator of Pinia.
+>Otro caso de uso genial para `$onAction` es esta elegante solución presentada por [Eduardo San Martín Morote](https://github.com/posva), creador de Pinia.
 
 `📄 main.js`
 ```js
@@ -235,17 +233,17 @@ export function ({ store }) => {
 })
 ```
 
-This plugin can be used to take errors that happen within Actions, and send them to an external service that you use, such as Sentry. This is super helpful to detect bugs during production.
+Este complemento se puede usar para tomar errores que ocurren dentro de **Acciones** y enviarlos a un servicio externo que use, como [Sentry](https://sentry.io/welcome/). Esto es muy útil para detectar errores durante la producción.
 
-## Add an Option to the Store
+## Agregar una opción a la tienda
 
-The last pattern we’ll look at is an interesting one because it allows us to send data from a store directly to a plugin.
+>El último patrón que veremos es interesante porque nos permite enviar datos desde una tienda directamente a un complemento.
 
-We can add an option to a store. When I say “option” in relation to Vue, I mean properties available on the Vue instance, such as data , computed, and methods in the Options API.
+Podemos añadir una **“option”** a una tienda. Cuando digo **“option”** en relación con Vue, me refiero a las propiedades disponibles en la instancia de Vue, como `data`, `computed` y `methods` en la **Options API**.
 
-Or in a Pinia options store, the options refer to state, getters, or actions.
+O en una **Options Store** de Pinia, las opciones se refieren al `state`, `getters` o `actions`.
 
-If we create our own option in a Pinia store, we can add properties to that option.
+Si creamos nuestra propia opción en una tienda Pinia, podemos añadir propiedades a esa opción.
 
 `📄 src/stores/auth.js`
 ```js
@@ -267,7 +265,9 @@ export const useAuthStore = defineStore("auth", {
 
 In the example, the option we have created is called greeting. We’re adding a property called enabled so that we can send either true or false to the plugin. Based on that boolean, we will turn the plugin on or off.
 
-Here is how that plugin could be constructed:
+En el ejemplo, la opción que hemos creado se llama `greeting`. Estamos agregando una propiedad llamada `enabled` para que podamos enviar `true` o `false` al complemento. Según ese valor booleano, activaremos o desactivaremos el complemento.
+
+Así es como se podría construir ese complemento:
 
 `📄 stores/plugins/greetUserPlugin.js`
 ```js
@@ -290,15 +290,15 @@ export function greetUserPlugin({ store, options }) {
 }
 ```
 
-The if statement if (options.greeting && options.greeting.enabled) relies on the enabled property being set to true.
+La instrucción `if (options.greeting && options.greeting.enabled)` se basa en que la propiedad `enabled` se establece en `true`.
 
-If it’s set to false, the plugin won’t run the logic, so the $onAction method will not watch every Pinia action.
+Si se establece en `false`, el complemento no ejecutará la lógica, por lo que el método `$onAction` no observará todas las acciones de Pinia.
 
-We could set properties in the option for any data we want our plugin to be able to use.
+Podríamos establecer propiedades en la opción para cualquier dato que queramos que nuestro complemento pueda usar.
 
-Adding an Option to Setup Stores
+## Adición de una Option a las Setup Stores
 
-By the way, we can also create options for Pinia plugins in a setup store. We do that by adding the option as a third argument when writing the setup function for the store:
+Por cierto, también podemos crear opciones para los complementos de Pinia en una **setup store**. Hacemos eso agregando la opción como tercer argumento al escribir la función de **setup** para la tienda:
 
 `📄 src/stores/auth.js`
 ```js
@@ -310,23 +310,25 @@ defineStore('auth',() => {...},
   }
 )
 ```
+>Un útil complemento de código abierto
 
-A handy open source plugin
 
-As you can imagine, this has a lot of potential to be useful when developing open source plugins for other Vue developers using Pinia.
+Como puede imaginar, esto tiene mucho potencial para ser útil al desarrollar complementos de código abierto para otros desarrolladores de Vue que usan Pinia.
 
-There are really so many possibilities for what we can do by creating our own plugins. The Vue open source community is starting to create useful plugins that are being shared, so keep an eye out for exciting enhancements developers will build.
+>Realmente hay tantas posibilidades de lo que podemos hacer al crear nuestros propios complementos. La comunidad de código abierto de Vue está comenzando a crear complementos útiles que se comparten, así que manténgase atento a las interesantes mejoras que crearán los desarrolladores.
 
-For example, let’s look at the simple but effective public plugin called pinia-plugin-persistedstate.
+Por ejemplo, veamos el complemento público simple pero efectivo llamado `pinia-plugin-persistedstate`.
 
-As it sounds, it’s a Pinia plugin that enables us to persist our state despite a browser refresh.
+Como parece, es un complemento de Pinia que nos permite conservar nuestro estado a pesar de un refrescamiento del navegador.
 
-To make use of it, we’d install it into our project.
+Para utilizarlo, lo instalaríamos en nuestro proyecto.
 
+```sh
 npm : npm i pinia-plugin-persistedstate
 yarn : yarn add pinia-plugin-persistedstate
+```
 
-Then import it into main.js and tell Pinia to use it.
+Luego impórtalo a `main.js` y decir a Pinia que lo use.
 
 `📄 main.js`
 ```js
@@ -337,7 +339,7 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 ```
 
-We then need to make sure to add the persist:true option to the store we want to be persisted:
+Luego, debemos asegurarnos de agregar la opción `persist:true` a la tienda que queremos que persista:
 
 ```js
 import { defineStore } from 'auth'
@@ -352,12 +354,12 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
-As you can see in the browser, now our state is being persisted.
+Como puede ver en el navegador, ahora nuestro estado se mantiene.
 
-## Course Conclusion
+## Conclusión del Tutorial
 
-I really hope you enjoyed this course on Proven Pinia Patterns!
+¡Realmente espero que hayas disfrutado este tutorial sobre Patrones Probados de Pinia!
 
-Pinia is such a flexible library that can adapt to your needs. Knowing a range of different patterns we can use will help us to get the most out of Pinia for all types of Vue projects.
+>Pinia es una biblioteca tan flexible que puede adaptarse a tus necesidades. Conocer una variedad de patrones diferentes que podemos usar nos ayudará a sacar el máximo provecho de Pinia para todo tipo de proyectos de Vue.
 
->Thanks for watching!
+**¡Gracias por ver!**
