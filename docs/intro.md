@@ -8,7 +8,7 @@ Este tutorial requiere tener en cuenta los conceptos básicos de [Pinia](https:/
 
 En Patrones Probados de Pinia, examinaremos algunas de las reglas de Pinia (la forma requerida de hacer las cosas), pero también veremos algunos de los patrones (la forma recomendada de usar Pinia para mejorar sus aplicaciones); Organizado, más claro y súper eficiente.
 
-Veremos un proyecto de ejemplo para conocer algunas de las reglas y patrones en el contexto de una aplicación real. El proyecto de ejemplo utiliza Pinia, Vue Router, la API de Google Maps y la biblioteca Vue Use de componibles.
+Veremos un proyecto de ejemplo para conocer algunas de las reglas y patrones en el contexto de una aplicación real. El proyecto de ejemplo utiliza Pinia, [Vue Router](https://router.vuejs.org/), la [API de Google](https://developers.google.com/maps/apis-by-platform) Maps y la biblioteca de composables [Vue Use](https://vueuse.org/).
 
 No lo construiremos de principio a fin, pero lo usaremos para observar más de cerca cómo se puede usar Pinia en una aplicación que tiene varios flujos de datos que deben compartirse en toda la aplicación.
 
@@ -23,8 +23,8 @@ Las tiendas incluyen:
 - Datos sobre los restaurantes que se recuperan en su búsqueda
 - Datos de favoritos de los usuarios a medida que agregan sus restaurantes favoritos a su lista de favoritos
 
-Además de ver cómo podemos organizar nuestras tiendas Pinia, también aprenderemos sobre dos tipos diferentes de tiendas que podemos crear: **Options vs Setup Stores**. Y aprenderemos sobre cómo acceder y actualizar el estado a través de nuestra aplicación.
+Además de ver cómo podemos organizar nuestras tiendas Pinia, también aprenderemos sobre dos tipos diferentes de tiendas que podemos crear: **Options** vs **Setup Stores**. Y aprenderemos sobre cómo acceder y actualizar el estado a través de nuestra aplicación.
 
 Finalmente, exploraremos más características únicas que vienen con Pinia, como `$patch`, `$reset` y complementos de Pinia, que podemos construir desde cero.
 
->Ahora que tenemos una mejor idea de hacia dónde nos dirigimos, tomemos un minuto para hablar sobre por qué elegiríamos usar Pinia cuando la Compositino API de Vue 3 ya tiene un poderoso sistema de reactividad integrado con flexibilidad para compartir el estado. Si te has estado preguntando si Pinia es siquiera necesaria, lo abordaré en la próxima lección. ¡Empecemos!
+>Ahora que tenemos una mejor idea de hacia dónde nos dirigimos, tomemos un minuto para hablar sobre por qué elegiríamos usar Pinia, cuando la Compositino API de Vue 3 ya tiene un poderoso sistema de reactividad integrado con flexibilidad para compartir el estado. Si te has estado preguntando si Pinia es siquiera necesario, lo abordaré en la próxima lección. ¡Empecemos!
