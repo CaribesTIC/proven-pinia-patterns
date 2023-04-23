@@ -1,8 +1,8 @@
 # Tiendas Modulares
 
-Una de las características más importantes de Pinia son sus tiendas modulares. Al usar Pinia, creamos una tienda enfocada en cada preocupación lógica de nuestra aplicación.
+>Una de las características más importantes de Pinia son sus tiendas modulares. Al usar Pinia, creamos una tienda enfocada en cada preocupación lógica de nuestra aplicación.
 
->De hecho, podemos definir tantas tiendas como queramos. Cada uno de ellos debe estar en su propio archivo, lo que ayudará a mantener nuestro código organizado y también conectará cada tienda por separado a devtools para que podamos rastrear fácilmente el estado de cada tienda.
+De hecho, podemos definir tantas tiendas como queramos. Cada uno de ellos debe estar en su propio archivo, lo que ayudará a mantener nuestro código organizado y también conectará cada tienda por separado a las **devtools** para que podamos rastrear fácilmente el estado de cada tienda.
 
 A veces es más obvio cuándo se debe crear una tienda. Otras veces es difícil saber cuándo dividir las tiendas más grandes en tiendas distintas. Primero, veamos un ejemplo más sencillo.
 
@@ -12,11 +12,9 @@ En nuestro proyecto de ejemplo, un usuario puede registrar una cuenta, iniciar s
 
 A lo largo de la aplicación, la interfaz de usuario cambiará dependiendo de si un usuario ha iniciado sesión. Por ejemplo, si ha iniciado sesión, mostraremos su nombre y un enlace a sus favoritos en la barra de navegación.
 
-
 ![modular-stores](./img/modular-stores-1.jpg)
 
-
-El estado del usuario es de lo que debemos hacer un seguimiento, y las acciones relacionadas con eso (registro, inicio de sesión, cierre de sesión) se pueden mantener en el mismo archivo de la tienda. Podríamos llamar a esto el **authentication store** o el **user store**.
+El estado del usuario es de lo que debemos hacer un seguimiento, y las acciones relacionadas con eso (registro, inicio de sesión, cierre de sesión) se pueden mantener en el mismo archivo de la tienda. Podríamos llamar a esto la tienda `auth` o la tienda `user`.
 
 `📄 src/stores/auth.js`
 ```js
@@ -38,41 +36,39 @@ Ahora, veamos un ejemplo menos sencillo.
 
 En la aplicación **Pinia Restaurants**, hay una barra de búsqueda con dos entradas.
 
-La primera entrada toma la ubicación de una ciudad.
+El primer `input` toma la ubicación de una ciudad.
 
-La segunda entrada toma un término de búsqueda para encontrar restaurantes relacionados, por ejemplo, _pizza_, _sushi_, _helados_, _etc_.
+El segundo `input` toma un término de búsqueda para encontrar restaurantes relacionados, por ejemplo, _pizza_, _sushi_, _helados_, _etc_.
 
 ![modular-stores](./img/modular-stores-2.jpg)
 
-Both inputs have event listeners that trigger a function when the user types in text. Each function makes a call to the Google Maps API.
-Ambas entradas tienen detectores de eventos que activan una función cuando el usuario escribe texto. Cada función realiza una llamada a la API de **Google Maps**.
+Ambos `inputs` tienen detectores de eventos que activan una función cuando el usuario escribe texto. Cada función realiza una llamada a la **API de Google Maps**.
 
 - **City**: pide la latitud y longitud de la ubicación ingresada por el usuario
 - **Search**: utiliza la ubicación ingresada para devolver solo los restaurantes dentro de cierta proximidad
     
-En otras palabras: tanto la ciudad como las entradas de búsqueda utilizan **datos de ubicación** y ambos utilizan la API de **Google Maps**.
+En otras palabras: tanto la ciudad como las entradas de búsqueda utilizan **datos de ubicación** y ambos utilizan la **API de Google Maps**.
 
 Entonces, ¿deberían combinarse dentro de la misma tienda? ¿Una tienda de **googleMaps**, tal vez?
 
-Bueno, hay bastantes acciones en este proyecto que dependen de la API de **Google Maps**. Eso es mucho código en una sola tienda...
+Bueno, hay bastantes acciones en este proyecto que dependen de la **API de Google Maps**. Eso es mucho código en una sola tienda...
 
 Y lo que es más importante, las acciones no están todas relacionadas con las mismas preocupaciones lógicas.
 
-Podríamos desglosarlo para centrarnos más en para qué se utiliza la API de **Google Maps**.
+Podríamos desglosarlo para centrarnos más en para qué se utiliza la **API de Google Maps**.
 
-Why don’t we try to focus on the state data? Which data do we need to track? What is the data being used for?
 
 ::: info Pregúntese:
-¿Por qué no intentamos centrarnos en los **state** de la data? ¿Qué datos necesitamos rastrear? ¿Para qué se utilizan los datos? ¿Con qué se relacionan los datos del **state**? ¿Se puede agrupar en torno a una preocupación lógica?
+¿Por qué no intentamos centrarnos en los estados de la data? ¿Qué datos necesitamos rastrear? ¿Para qué se utilizan los datos? ¿Con qué se relacionan los datos del estado? ¿Se puede agrupar en torno a una preocupación lógica?
 :::
 
-Algunos de los datos del **state** que necesitamos están relacionados con la ubicación: obtener la latitud y la longitud del valor de entrada de la ciudad. Se trata de datos utilizados para realizar solicitudes de geolocalización.
+Algunos de los datos del estado que necesitamos están relacionados con la ubicación: obtener la latitud y la longitud del valor del `input` de la ciudad. Se trata de datos utilizados para realizar solicitudes de `geolocation`.
 
 ![modular-stores](./img/modular-stores-3.jpg)
 
-Otros datos del **state** que necesitamos están relacionados con los restaurantes: la lista de restaurantes que coinciden con el término de búsqueda (y sus detalles: _name_, _address_, _rating_, _reviews_, _etc_.) dentro de una cierta distancia de la ciudad.
+Otros datos del estado que necesitamos están relacionados con los restaurantes: la lista de restaurantes que coinciden con el término de búsqueda (y sus detalles: _name_, _address_, _rating_, _reviews_, _etc_.) dentro de una cierta distancia de la ciudad.
 
-En otras palabras, este **state** es la información que queremos presentar al usuario sobre los restaurantes.
+En otras palabras, este estado es la información que queremos presentar al usuario sobre los restaurantes.
 
 ![modular-stores](./img/modular-stores-4.jpg)
 
@@ -85,7 +81,7 @@ Basado en este razonamiento, parece que podemos hacer dos tiendas con sus propia
 
 **Pero que pasa…**
 
->En la tienda de restaurantes, hay una solicitud para obtener una lista de restaurantes relevantes, y requiere el uso de datos de geolocalización para obtener restaurantes dentro de un área geográfica determinada. Necesitamos usar datos de la tienda de geolocalización en la tienda de restaurantes.
+>En la tienda de `restaurants`, hay una solicitud para obtener una lista de restaurantes relevantes, y requiere el uso de datos de `geolocation` para obtener restaurantes dentro de un área geográfica determinada. Necesitamos usar datos de la tienda de `geolocation` en la tienda de `restaurants`.
 
 ¿Esto arruina por completo nuestro enfoque para crear tiendas separadas? ¡De nada!
 
@@ -93,14 +89,14 @@ Basado en este razonamiento, parece que podemos hacer dos tiendas con sus propia
 
 >Podemos compartir el estado entre dos tiendas si es necesario. A esto lo llamamos tiendas anidadas.
 
-Un detalle importante para recordar acerca de las tiendas anidadas es que la forma en que usamos las tiendas anidadas (compartir datos, acciones y captadores entre tiendas) dependerá del tipo de tienda que elijamos usar: una tienda de **options** o una tienda de **setup**.
+Un detalle importante para recordar acerca de las tiendas anidadas es que la forma en que usamos las tiendas anidadas (compartir `data`, `actions` y `getters` entre tiendas) dependerá del tipo de tienda que elijamos usar: una tienda de **Options** o una tienda de **Setup**.
 
 ## Tiendas de Setup Anidadas
 
-En una tienda de **setup**, podemos importar y llamar a la función `useGeoLocationStore()` en la parte superior de la función de tienda.
+>En una tienda de **Setup**, podemos importar y llamar a la función `useGeoLocationStore()` en la parte superior de la función de tienda.
 
 `📄 src/stores/restaurants.js`
-```js
+```js{7}
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import myFetch from "../helpers/myFetch";
@@ -120,8 +116,7 @@ export const useRestaurantsStore = defineStore("restaurants", () => {
     restaurantDetails.value = []; // reset to empty
 
     const lat = locationStore.latitude || locationStore.coords.value.latitude;
-    const long =
-      locationStore.longitude || locationStore.coords.value.longitude;
+    const long = locationStore.longitude || locationStore.coords.value.longitude;
     const search = searchChoice.value;
     const body = { lat, long, search }; // uses data from locationStore to make this request
     myFetch("find-restaurant", "POST", body)
@@ -192,9 +187,9 @@ export const useRestaurantsStore = defineStore("restaurants", () => {
 
 ## Tiendas de Options Anidadas
 
-Alternativamente, en una tienda de **options**, necesitaremos importar y llamar a la función `useStore()` dentro de la `action` o `getter` donde necesitamos acceder a la tienda.
+>Alternativamente, en una tienda de **Options**, necesitaremos importar y llamar a la función `useStore()` dentro de la `action` o `getter` donde necesitamos acceder a la tienda.
 
-Para ver eso en uso, podemos echar un vistazo dentro de la tienda de favoritos del código de nuestra aplicación de ejemplo:
+Para ver eso en uso, podemos echar un vistazo dentro de la tienda de `favorites` del código de nuestra aplicación de ejemplo:
 
 `📄 src/stores/favorites.js`
 ```js{12}
@@ -223,9 +218,7 @@ export const useFavoritesStore = defineStore("favorites", {
     },
 ```
 
-As you can see, the setup store wins again for being just slightly more convenient. Once you’ve imported that store and called the useStore() function, you can use it in any of your actions and getters within that store function.
-
-Como puede ver, la tienda de **setup** gana nuevamente por ser un poco más conveniente. Una vez que haya importado esa tienda y haya llamado a la función `useStore()`, puede usarla en cualquiera de sus `actions` y `getters` dentro de esa función de tienda.
+Como puede ver, la tienda de **Setup** gana nuevamente por ser un poco más conveniente. Una vez que haya importado esa tienda y haya llamado a la función `useStore()`, puede usarla en cualquiera de sus `actions` y `getters` dentro de esa función de tienda.
 
 ## Envolviendo las cosas
 

@@ -1,21 +1,20 @@
 # Mutando el Estado
 
-En la última lección, vimos cómo podemos acceder al estado desde Pinia y también cómo podemos usar `v-model` para vincular propiedades de estado en una tienda de Pinia. Ahora hablemos de matación de estado.
+En la última lección, vimos cómo podemos acceder al estado desde Pinia y también cómo podemos usar `v-model` para vincular propiedades de estado en una tienda de Pinia. Ahora hablemos de mutación de estado.
 
 ## Mutando el Estado
 
->Aquí es donde Pinia se vuelve un poco... controvertida. Pinia nos permite mutar el estado de varias maneras, permitiéndonos decidir dónde y cuándo queremos actualizar el estado en nuestra aplicación. Otras bibliotecas de administración de estado son mucho más estrictas sobre cómo se cambia el estado.
+Aquí es donde Pinia se vuelve un poco... controvertida. Pinia nos permite mutar el estado de varias maneras, permitiéndonos decidir dónde y cuándo queremos actualizar el estado en nuestra aplicación. Otras bibliotecas de administración de estado son mucho más estrictas sobre cómo se cambia el estado.
 
-Por ejemplo, la antigua biblioteca oficial de gestión de estado de Vue, [Vuex](https://vuex.vuejs.org/), requería que los cambios de estado se iniciaran mediante el envío de una acción para cometer una mutación; esa era la única forma de cambiar de estado (a menos que estuviera rompiendo ese patrón en contra de las mejores prácticas recomendadas).
+>Por ejemplo, la antigua biblioteca oficial de gestión de estado de Vue, [Vuex](https://vuex.vuejs.org/), requería que los cambios de estado se iniciaran mediante el envío de una acción para cometer una mutación; esa era la única forma de cambiar de estado (a menos que estuviera rompiendo ese patrón en contra de las mejores prácticas recomendadas).
 
->Pinia se ha deshecho de las mutaciones independientes por completo, brindándonos más opciones sobre cómo elegimos mutar el estado.
+Pinia se ha deshecho de las mutaciones independientes por completo, brindándonos más opciones sobre cómo elegimos mutar el estado.
 
 ## Mutar el Estado de Pinia con Acciones
 
-La forma más común de mutar el estado usando Pinia es desencadenar una acción en la tienda que haga que se cambie el estado.
+>La forma más común de mutar el estado usando Pinia es desencadenar una acción en la tienda que haga que se cambie el estado.
 
-In this example, clicking the Add to Favorites button will trigger the addToFavorites action in the favorites store.
-En este ejemplo, hacer clic en el botón **Add to Favorites** activará la acción agregar a favoritos en la tienda de favoritos.
+En este ejemplo, hacer clic en el botón **Add to Favorites** activará la acción agregar a favoritos en la tienda de `favorites`.
 
 `📄 src/views/RestaurantView.vue`
 ```html
