@@ -169,18 +169,18 @@ router.beforeEach((to) => {
 });
 ```
 
-Sí, podemos acceder al estado de Pinia en un archivo de enrutador. Aquí, si quisiéramos restablecer toda la información de **restaurant**, borrando una búsqueda anterior cuando un usuario navega de regreso a la página de inicio, podemos llamar a la función `$reset` cada vez que alguien navega de regreso a la página de inicio.
+Sí, podemos acceder al estado de Pinia en un archivo de enrutador. Aquí, si quisiéramos restablecer toda la información de **restaurants**, borrando una búsqueda anterior cuando un usuario navega de regreso a la página de inicio, podemos llamar a la función `$reset` cada vez que alguien navega de regreso a la página de inicio.
 
 ## Una limitación de los Setup Stores
 
->Desafortunadamente, el método `$reset` no está disponible si usamos un **setup store**.
+>Desafortunadamente, el método `$reset` no está disponible si usamos una tienda **Setup**.
 
-¡Aquí hay un ejemplo en el que las ***options store** tienen una ventaja sobre las **setup store**!
+¡Aquí hay un ejemplo en el que las ***Options Store** tienen una ventaja sobre las **Setup Store**!
 
-Esto se debe a que el método `$reset` se basa en la función `state()` para crear un nuevo estado, reemplazando el `store.$state` actual por uno nuevo. Como no tenemos esa función `state()` en una **setup store**, Pinia no tiene forma de hacer esto.
+Esto se debe a que el método `$reset` se basa en la función `state()` para crear un nuevo estado, reemplazando el `store.$state` actual por uno nuevo. Como no tenemos esa función `state()` en una tienda **Setup**, Pinia no tiene forma de hacer esto.
 
 ```js
-// We have a state function in options stores
+// We have a state function in Options Store
 state: () => ({
     userFavorites: [],
 })
@@ -189,13 +189,11 @@ state: () => ({
 
 Otra posibilidad sería simplemente crear nuestro propio método de reinicio para una tienda individual.
 
-For example, we could create an Action that serves the purpose of resetting our entire store. Here’s how that could look, with a resetRestaurantsStore action to clear out each state property in the restaurants store, resetting the store to its original state. We would only need to use this if our store is a setup store and we’re needing a function to reset the entire state.
-
-Por ejemplo, podríamos crear una Acción que sirva para restablecer toda nuestra tienda. Así es como podría verse, con una acción `resetRestaurantsStore` para borrar cada propiedad de estado en la tienda **restaurant**, restableciendo la tienda a su estado original. Solo necesitaríamos usar esto si nuestra tienda es una **setup store** y necesitamos una función para restablecer todo el estado.
+Por ejemplo, podríamos crear una Acción que sirva para restablecer toda nuestra tienda. Así es como podría verse, con una acción `resetRestaurantsStore` para borrar cada propiedad de estado en la tienda **restaurants**, restableciendo la tienda a su estado original. Solo necesitaríamos usar esto si nuestra tienda es una **Setup Store** y necesitamos una función para restablecer todo el estado.
 
 `📄 src/stores/restaurants.js`
 ```js
-//action in a setup store
+//action in a Setup Store
 
 function resetRestaurantsStore() {
     searchChoice.value = "";
@@ -210,12 +208,12 @@ function resetRestaurantsStore() {
 
 >Estas son solo algunas de las formas en que podemos acceder y mutar el estado con Pinia. Si bien puede parecer mucho, tenga en cuenta que el soporte de **devtools** es excelente.
 
-Podemos ver cada propiedad de estado y actualización de getter en el panel de herramientas de desarrollo de Pinia, y vemos a qué tienda pertenecen.
+Podemos ver cada propiedad de estado y actualización de `getter` en el panel de herramientas de desarrollo de Pinia, y vemos a qué tienda pertenecen.
 
 ![mutating-state](./img/mutating-state-1.jpg)
 
 
-Y podemos ver cada acción y parche que ocurre si revisamos el panel de la línea de tiempo.
+Y podemos ver cada `action` y `$patch` que ocurre si revisamos el panel de la línea de tiempo.
 
 ![mutating-state](./img/mutating-state-2.jpg)
 
@@ -233,7 +231,7 @@ store.$onAction(({ name, store, args, after, onError }, state) => {
 
 Tenga en cuenta cómo podemos pasar el estado como un segundo argumento, en caso de que lo necesitemos.
 
-Aquí se utiliza para registrar información sobre qué acción se ha activado en el **auth store**.
+Aquí se utiliza para registrar información sobre qué acción se ha activado en el `authStore`.
 
 
 `📄 src/App.vue`
@@ -243,7 +241,7 @@ authStore.$onAction(({ name, store, args }) => {
 });
 ```
 
-En la consola, cuando el usuario inicia sesión con el nombre de usuario 'srodg' y la contraseña 'pw', vemos que está registrado. Y vemos que cerrar sesión no requiere parámetros.
+En la consola, cuando el usuario inicia sesión con el nombre de usuario `'srodg'` y la contraseña `'pw'`, vemos que está registrado. Y vemos que cerrar sesión no requiere parámetros.
 
 ![mutating-state](./img/mutating-state-3.jpg)
 
@@ -251,4 +249,4 @@ Pero probablemente rara vez necesitemos usar la consola para registrar esta info
 
 ## A continuación ...
 
-Estamos casi al final del tutorial, pero tenemos una cosa más de la que hablar: los complementos de Pinia. En la próxima lección, aprenderemos cómo agregar nuestros propios complementos creados por el usuario a Pinia para ayudarnos a hacer aún más.
+>Estamos casi al final del tutorial, pero tenemos una cosa más de la que hablar: los complementos de Pinia. En la próxima lección, aprenderemos cómo agregar nuestros propios complementos creados por el usuario a Pinia para ayudarnos a hacer aún más.
