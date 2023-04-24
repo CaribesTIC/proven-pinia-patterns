@@ -3,7 +3,7 @@
 >Terminaremos este tutorial echando un vistazo a una herramienta importante que puede ayudarnos a expandir la funcionalidad de Pinia: los
 complementos.
 
-Un complemento es una forma de extender una API para que pueda hacer cosas más allá de lo que viene de fábrica. Es imposible anticipar todas las necesidades posibles que tendrá un desarrollador que trabaja con Pinia, pero dado que podemos crear complementos, podemos agregar a Pinia para que pueda satisfacer nuestras necesidades aún mejor.
+Un complemento es una forma de extender una API para que pueda hacer cosas más allá de lo que viene de fábrica. Es imposible anticipar todas las necesidades posibles que tendrá un desarrollador que trabaja con Pinia, pero dado que podemos crear complementos, podemos agregárselos a Pinia para que pueda satisfacer nuestras necesidades aún mejor.
 
 ## Cuándo escribir un complemento
 
@@ -24,8 +24,6 @@ Y luego le decimos a Pinia que use el complemento pasándolo a nuestra instancia
 ```js
 pinia.use(myPiniaPlugin)
 ```
-
-Pinia does something helpful for us when it adds the plugin to our Pinia instance. When we add a plugin with .use(), Pinia also takes the opportunity to add extra information about our Pinia instance and our app that could be helpful to us. This is called the context.
 
 >Pinia hace algo útil para nosotros cuando agrega el complemento a nuestra instancia de Pinia. Cuando agregamos un complemento con `.use()`, Pinia también aprovecha la oportunidad para agregar información adicional sobre nuestra instancia de Pinia y nuestra aplicación que podría sernos útil. Esto se llama el contexto.
 
@@ -246,7 +244,7 @@ O en una **Options Store** de Pinia, las opciones se refieren al `state`, `gette
 Si creamos nuestra propia opción en una tienda Pinia, podemos añadir propiedades a esa opción.
 
 `📄 src/stores/auth.js`
-```js
+```js{11,12,13}
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     // ... 
@@ -262,8 +260,6 @@ export const useAuthStore = defineStore("auth", {
   },
 });
 ```
-
-In the example, the option we have created is called greeting. We’re adding a property called enabled so that we can send either true or false to the plugin. Based on that boolean, we will turn the plugin on or off.
 
 En el ejemplo, la opción que hemos creado se llama `greeting`. Estamos agregando una propiedad llamada `enabled` para que podamos enviar `true` o `false` al complemento. Según ese valor booleano, activaremos o desactivaremos el complemento.
 
@@ -298,7 +294,7 @@ Podríamos establecer propiedades en la opción para cualquier dato que queramos
 
 ## Adición de una Option a las Setup Stores
 
-Por cierto, también podemos crear opciones para los complementos de Pinia en una **setup store**. Hacemos eso agregando la opción como tercer argumento al escribir la función de **setup** para la tienda:
+Por cierto, también podemos crear opciones para los complementos de Pinia en una **Setup Store**. Hacemos eso agregando la opción como tercer argumento al escribir la función de **setup** para la tienda:
 
 `📄 src/stores/auth.js`
 ```js
@@ -312,12 +308,11 @@ defineStore('auth',() => {...},
 ```
 >Un útil complemento de código abierto
 
-
 Como puede imaginar, esto tiene mucho potencial para ser útil al desarrollar complementos de código abierto para otros desarrolladores de Vue que usan Pinia.
 
 >Realmente hay tantas posibilidades de lo que podemos hacer al crear nuestros propios complementos. La comunidad de código abierto de Vue está comenzando a crear complementos útiles que se comparten, así que manténgase atento a las interesantes mejoras que crearán los desarrolladores.
 
-Por ejemplo, veamos el complemento público simple pero efectivo llamado `pinia-plugin-persistedstate`.
+**Por ejemplo, veamos el complemento público simple pero efectivo llamado [pinia-plugin-persistedstate](https://prazdevs.github.io/pinia-plugin-persistedstate/).**
 
 Como parece, es un complemento de Pinia que nos permite conservar nuestro estado a pesar de un refrescamiento del navegador.
 
